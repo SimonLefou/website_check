@@ -5,17 +5,18 @@ import pandas as pd
 # password = os.environ.get('EMAIL_PASS')
 
 
-df = pd.read_excel("websites_to_check.xlsx")
+excel_file = pd.read_excel("liste_site.xlsx")
 
-for index, websites in df.iterrows():
-    response = requests.get(websites["Name"])
+
+for websites in excel_file.iterrows():
+
     try:
-        response = requests.get(websites["Name"])
+        response = requests.get(websites)
         # df.at[index, "status_code"] = "Site ok {}".format(response.status_code)
     except ValueError:
-        df.at[index, "status_code"] = "Site non attaignable"
+        excel_file.at[websites, "status_code"] = "Site non attaignable"
 
-print(df)
+print(excel_file)
 
 """
 def send_email():
