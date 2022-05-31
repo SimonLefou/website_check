@@ -1,9 +1,13 @@
 import requests
 import pandas as pd
+from urllib.parse import urlparse
 
 
 def convert(url):
-    if url.startswith('http://www.'):
+    parse = urlparse(url)
+    
+
+"""    if url.startswith('http://www.'):
         return 'https://www.' + url[len('http://www.'):]
     elif url.startswith('www.'):
         return 'https://' + url[len('www.'):]
@@ -11,7 +15,7 @@ def convert(url):
         return 'https://' + url[len('http://'):]
     if not url.startswith('https://'):
         return 'https://' + url
-    return url
+    return url"""
 
 
 def clean_url(url):
@@ -43,8 +47,6 @@ try:
     excel_file = pd.read_excel("liste_site.xlsx", header=None)
 except FileNotFoundError as e:
     print("Erreur : le fichier liste_site.xlsx n'a pas pu être ouvert. Assurez-vous qu'il soit dans le même répertoire")
-except Exception as e:
-    print(e)
 else:
     col1 = [website for website in excel_file[0] if type(website) == str]   # Recupération des Websites en colonne
 
@@ -59,7 +61,7 @@ for i in range(len(col1)):
 
     response = get_status(check_url)
     print(f"{check_url}, {response}")
-    if response:
+    if response == False:
         file.write(check_url)
         file.write("\n")
         print("Programme en cours")
